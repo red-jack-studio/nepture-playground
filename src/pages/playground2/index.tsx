@@ -26,7 +26,7 @@ export const ChatButton = styled(Button).attrs({ as: 'button' })`
   }
 `;
 
-const Playground: React.FC = () => {
+const Playground2: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userResponse, setUserResponse] = useState<string>("");
   const [trainingData, setTrainingData] = useState<string>("");
@@ -95,4 +95,4 @@ const Playground: React.FC = () => {
   );
 };
 
-export default Playground;
+export default Playground2;
