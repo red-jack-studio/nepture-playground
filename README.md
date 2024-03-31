@@ -31,16 +31,16 @@ To install the Nepture Playground, follow these steps:
 ## Running Locally
 
 After setting up your environment, you can start the application locally with:
-    ```shell
-    npm start
-    ```
+ ```shell
+npm start
+```
 
 ## Deployment
 
 To build the application for deployment:
-    ```shell
-    npm run build
-    ```
+```shell
+npm run build
+```
 
 ## Contributing
 
