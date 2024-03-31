@@ -60,3 +60,11 @@ export const PrimaryButton = styled(Button).attrs({ as: 'button' })`
     opacity: 0.7;
   }
 `;
+
+export const LineBreak = styled.br`
+  margin: auto;
+`
+
+export const Spacer1Rem = styled.div`
+  margin: 1rem 0;
+`

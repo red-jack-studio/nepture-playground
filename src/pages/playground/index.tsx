@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { NeptureAPI, NeptureEngineEndpoint } from "../../constants/settings";
 import { CornerDownLeft } from "react-feather";
@@ -6,6 +6,7 @@ import { CornerDownLeft } from "react-feather";
 /* Style Imports */
 import {
   ChatBoxContentWrapper,
+  FormattedAuthorHeader,
   FormattedResponse,
   FormattedResponseContainer,
   TextBox,
@@ -13,7 +14,7 @@ import {
   TextInput,
   TrainingDataBox
 } from "../../styles/chatBox";
-import { PrimaryButton, ButtonWrapper } from "../../styles";
+import { PrimaryButton, ButtonWrapper, LineBreak, Spacer1Rem } from "../../styles";
 
 interface ChatMessage {
   subject: "User" | "AI";
@@ -25,44 +26,48 @@ const Playground: React.FC = () => {
   const [userResponse, setUserResponse] = useState<string>("");
   const [trainingData, setTrainingData] = useState<string>("");
   const [isChatEnabled, setIsChatEnabled] = useState<boolean>(false);
+  const [isAwaitingResponse, setIsAwaitingResponse] = useState<boolean>(false);
 
-  const chatInputRef = useRef<HTMLInputElement>(null); // Reference to the chat input
+  const chatInputRef = useRef<HTMLInputElement>(null);
+
+  // Ensure focus is reset to chat input after each new message
+  useEffect(() => {
+    if (isChatEnabled) {
+      chatInputRef.current?.focus();
+    }
+  }, [messages, isChatEnabled]);
 
   const startChat = () => {
-    if (!trainingData.trim()) return; // Ensure there's training data before enabling chat
     setIsChatEnabled(true);
-    chatInputRef.current?.focus(); // Focus on the chat input
+    setTimeout(() => chatInputRef.current?.focus(), 0); // Ensure focus after state update
   };
 
   const sendMessage = async () => {
-    const userMessage = userResponse.trim();
-    if (!userMessage) return;
+    if (!userResponse.trim()) return;
+    setIsAwaitingResponse(true); // Start loading state
 
+    const userMessage = userResponse.trim();
     setMessages((prev) => [...prev, { subject: "User", content: userMessage }]);
+    setUserResponse(""); // Clear the input immediately
 
     try {
-      const fullApiUrl = `${NeptureAPI}${NeptureEngineEndpoint}`;
-      // Constructing the payload with trainingData
       const payload = {
         content: userMessage,
-        trainingData: trainingData.trim() // Ensure trainingData is trimmed
+        trainingData: trainingData.trim()
       };
-
+      const fullApiUrl = `${NeptureAPI}${NeptureEngineEndpoint}`;
       const response = await axios.post(fullApiUrl, payload);
 
-      // Extract the AI response from the choices array
       const aiTextResponse = response.data.choices[0].message.content;
-
       setMessages((prev) => [
         ...prev,
         { subject: "AI", content: aiTextResponse }
       ]);
     } catch (error) {
       console.error("Error sending message to API:", error);
+    } finally {
+      setIsAwaitingResponse(false); // End loading state
     }
-
-    // Clear the input after sending
-    setUserResponse("");
   };
 
   return (
@@ -82,6 +87,7 @@ const Playground: React.FC = () => {
               placeholder="Please insert your training data here..."
               value={trainingData}
               onChange={(e) => setTrainingData(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && startChat()}
               disabled={isChatEnabled}
             />
             <PrimaryButton onClick={startChat} disabled={isChatEnabled}>
@@ -101,21 +107,29 @@ const Playground: React.FC = () => {
           <TextBox>
             {messages.map((msg, index) => (
               <FormattedResponseContainer key={index}>
-                <b>{msg.subject}:</b>{" "}
+                <FormattedAuthorHeader>{msg.subject}:</FormattedAuthorHeader><LineBreak />
                 <FormattedResponse>{msg.content}</FormattedResponse>
               </FormattedResponseContainer>
             ))}
+            <Spacer1Rem />
             <TextInput
               ref={chatInputRef}
               placeholder="Type your message..."
               value={userResponse}
-              disabled={!isChatEnabled}
               onChange={(e) => setUserResponse(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              onKeyPress={(e) =>
+                e.key === "Enter" && !isAwaitingResponse && sendMessage()
+              }
+              disabled={isAwaitingResponse}
             />
             <ButtonWrapper>
-              <PrimaryButton onClick={sendMessage} disabled={!isChatEnabled}>
-                Send{" "}
+              <PrimaryButton
+                onClick={sendMessage}
+                disabled={
+                  isAwaitingResponse || userResponse.trim().length === 0
+                }
+              >
+                {isAwaitingResponse ? "Awaiting response..." : "Send"}{" "}
                 <CornerDownLeft size={16} style={{ marginBottom: "-4px" }} />
               </PrimaryButton>
             </ButtonWrapper>

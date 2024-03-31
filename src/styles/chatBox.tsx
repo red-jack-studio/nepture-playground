@@ -5,6 +5,7 @@ import {
     DefaultTextFontSize,
     PrimaryColor,
     PrimaryFontColor,
+    SecondaryColor,
 } from './';
 
 export const ChatBoxContentWrapper = styled.div`
@@ -103,16 +104,21 @@ export const ResponseContainer = styled.div`
 `;
 
 export const FormattedResponseContainer = styled.div`
-    margin-bottom: 1rem;
-    padding-top: 1rem;
+    margin: 0.75rem 0;
     text-align: left;
-    border-top: 1px solid ${BorderColor};
 `;
 
 export const FormattedResponse = styled.span`
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 400;
 `;
+
+export const FormattedAuthorHeader = styled.span`
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: ${SecondaryColor};
+`
 
 export const Button = styled.button`
     /* Your button styles here */
