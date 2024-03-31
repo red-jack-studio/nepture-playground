@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-/* default styling parameters */
+/* Exports all default colors to be used across the application. */
 
 export const BorderRadius = `16px`;
 export const BorderColor = `rgba(255, 255, 255, 0.1)`;
@@ -11,7 +11,7 @@ export const PrimaryFontColor = `rgba(255, 255, 255, 1)`;
 export const SecondaryColor = `rgba(255, 255, 255, 0.2)`;
 export const SecondaryColorDimmed = `rgba(255, 255, 255, 0.15)`;
 
-/* wrappers */
+/* Exports all major wrappers. */
 
 export const AppWrapper = styled.div`
     width: 100%;
@@ -32,7 +32,7 @@ export const PageWrapper = styled.div`
     padding: auto;
 `
 
-// General Styles
+/* General styled components to be exported and used in the application. */
 
 export const ButtonWrapper = styled.a`
     text-decoration: none;

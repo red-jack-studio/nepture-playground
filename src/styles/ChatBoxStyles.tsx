@@ -6,7 +6,7 @@ import {
     PrimaryColor,
     PrimaryFontColor,
     SecondaryColor,
-} from './';
+} from '.';
 
 export const ChatBoxContentWrapper = styled.div`
     margin: 1rem 0;
@@ -76,7 +76,6 @@ export const TextInput = styled.input`
 export const ResponseContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: bottom;
     flex-grow: 1;
     min-height: 40px;
     overflow-y: auto;

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { NeptureAPI, NeptureEngineEndpoint, ContextFactor } from "../../constants/settings";
 import { CornerDownLeft } from "react-feather";
+import textFormatter from "../../utils/useTextFormatter";
 
 /* Style Imports */
 import {
@@ -14,7 +15,7 @@ import {
   TextBoxHeader,
   TextInput,
   TrainingDataBox
-} from "../../styles/chatBox";
+} from "../../styles/ChatBoxStyles";
 import {
   PrimaryButton,
   ButtonWrapper,
@@ -133,7 +134,7 @@ const Playground: React.FC = () => {
                 <FormattedResponseContainer key={index}>
                   <FormattedAuthorHeader>{msg.subject}:</FormattedAuthorHeader>
                   <LineBreak />
-                  <FormattedResponse>{msg.content}</FormattedResponse>
+                  <FormattedResponse>{textFormatter(msg.content)}</FormattedResponse>
                 </FormattedResponseContainer>
             ))}
             </ResponseContainer>

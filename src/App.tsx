@@ -5,12 +5,11 @@ import {
 } from './styles'
 
 // Header & Footer
-import Header from './components/header';
-import Footer from './components/footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 // App Pages
-import Playground from "./pages/playground";
-
+import Playground from "./pages/Playground";
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
           <PageWrapper>
             <Header />
             <Routes>
-              {/* Define Default Routes */}
               <Route path="/" element={<Playground />} />
             </Routes>
           </PageWrapper>

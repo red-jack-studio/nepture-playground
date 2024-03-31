@@ -1,7 +1,7 @@
 import {
     HeaderWrapper,
     HeaderItem,
-} from '../styles/header'
+} from '../styles/HeaderStyles'
 
 export function Header() {
     return (

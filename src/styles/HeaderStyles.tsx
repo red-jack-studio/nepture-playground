@@ -3,7 +3,7 @@ import {
     BorderRadius,
     BorderColor,
     DefaultTextFontSize,
-} from './'
+} from '.'
 
 export const HeaderWrapper = styled.div`
     display: flex;

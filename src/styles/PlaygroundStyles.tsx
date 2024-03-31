@@ -2,9 +2,6 @@ import styled from "styled-components";
 import {
     BorderColor,
     BorderRadius,
-    DefaultTextFontSize,
-    PrimaryColor,
-    PrimaryFontColor,
 } from ".";
 
 export const ParametersWrapper = styled.div`

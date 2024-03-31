@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
     BorderColor,
     DefaultTextFontSize,
-} from './'
+} from '.'
 
 export const ComponentWrapper = styled.div`
     width: 100%;

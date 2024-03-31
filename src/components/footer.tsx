@@ -5,7 +5,7 @@ import {
     FooterItem,
     ComponentWrapper,
     CopyrightWrapper,
-} from '../styles/footer'
+} from '../styles/FooterStyles'
 
 export function Footer() {
     return (
