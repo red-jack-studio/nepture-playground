@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import callApi from '../../utils/gptApiCall';
+import useNeptureApi from '../../utils/useNeptureApi';
+
+/* Style Imports */
 import {
     FormattedResponse,
     FormattedResponseContainer,
@@ -12,30 +14,14 @@ import {
     ButtonWrapper,
 } from '../../styles';
 
-// Define the type for chat messages
 interface ChatMessage {
     subject: string;
     content: string;
 }
 
 const Chatbot = () => {
-    const [messages, setMessages] = useState<ChatMessage[]>([]); // Specify the type for messages state
-    const [userResponse, setUserResponse] = useState(''); // State to store user input
-
-    // Function to start chat exchange
-    const startExchange = async () => {
-        // Append user's initial message to messages array
-        setMessages(prevMessages => [...prevMessages, { subject: 'User', content: userResponse }]);
-        
-        // Call the ChatGPT API to get the response
-        const response = await callApi(userResponse);
-
-        // Append response to messages array
-        setMessages(prevMessages => [...prevMessages, { subject: 'Chatbot', content: response }]);
-
-        // Clear user response input
-        setUserResponse('');
-    };
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
+    const [userResponse, setUserResponse] = useState('');
 
     return (
         <>
@@ -54,7 +40,7 @@ const Chatbot = () => {
                     onChange={e => setUserResponse(e.target.value)}
                 />
                 <ButtonWrapper>
-                    <Button onClick={startExchange}>Start Chat</Button>
+                    <Button>Start Chat</Button>
                 </ButtonWrapper>
             </TextBox>
         </>

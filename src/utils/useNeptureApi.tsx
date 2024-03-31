@@ -1,17 +1,16 @@
-interface ApiProps {
+interface NeptureApiProps {
     apiEngine: string;
     apiParameters: string;
     apiMessage: string;
-    apiKey: string;
     apiEndpoint: string;
+    userResponse: string;
 }
 
-export function callApi({ apiEngine, apiParameters, apiMessage, apiKey, apiEndpoint }: ApiProps): Promise<string> {
+export function useNeptureApi({ apiEngine, apiParameters, apiMessage, apiEndpoint }: NeptureApiProps): Promise<string> {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', apiEndpoint, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Authorization', `Bearer ${apiKey}`);
 
         const requestData = {
             model: apiEngine,
@@ -45,4 +44,4 @@ export function callApi({ apiEngine, apiParameters, apiMessage, apiKey, apiEndpo
     });
 }
 
-export default callApi
+export default useNeptureApi

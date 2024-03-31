@@ -8,7 +8,7 @@ export function Header() {
         <>
             <HeaderWrapper>
                 <HeaderItem href='/' target='_self'>
-                    AI Simulation Room
+                    Nepture Playground
                 </HeaderItem>
             </HeaderWrapper>
         </>

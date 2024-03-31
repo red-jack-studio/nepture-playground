@@ -13,7 +13,7 @@ export function Footer() {
             <ComponentWrapper>
                 <FooterWrapper>
                     <FooterSection>
-                        <FooterSectionTitle>MindCrafter</FooterSectionTitle>
+                        <FooterSectionTitle>Nepture Playground</FooterSectionTitle>
                         <FooterItem href='https://github.com/znx-x/MindCrafter/tree/main' target='_blank'>Github Repository</FooterItem>
                         <FooterItem href='https://github.com/znx-x/MindCrafter/blob/main/LICENSE' target='_blank'>Usage License</FooterItem>
                     </FooterSection>
