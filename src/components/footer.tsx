@@ -19,7 +19,7 @@ export function Footer() {
                     </FooterSection>
                 </FooterWrapper>
                 <CopyrightWrapper>
-                    Copyright © 2024 Paulo Baronceli & Luis Baronceli. Distributed under the MIT lincense.
+                    Copyright © 2024 Paulo Baronceli & Luis Baronceli. Distributed under the GPL-3.0 lincense.
                 </CopyrightWrapper>
             </ComponentWrapper>
         </>
