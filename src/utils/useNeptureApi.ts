@@ -1,3 +1,9 @@
+/*
+    This util is used to manage requests to and from the Nepture API server.
+    If you are running a stable and supported version of the Nepture API Server,
+    you will not need to make any changes to the code below.
+*/
+
 interface NeptureApiProps {
     apiEngine: string;
     apiParameters: string;

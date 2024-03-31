@@ -21,6 +21,7 @@ function App() {
           <PageWrapper>
             <Header />
             <Routes>
+              {/* Define Default Routes */}
               <Route path="/" element={<Playground />} />
               <Route path="/p2" element={<Playground2 />} />
             </Routes>
