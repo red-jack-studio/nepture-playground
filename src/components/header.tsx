@@ -10,9 +10,6 @@ export function Header() {
                 <HeaderItem href='/' target='_self'>
                     Nepture Playground
                 </HeaderItem>
-                <HeaderItem href='/p2' target='_self'>
-                    Nepture Playground II
-                </HeaderItem>
             </HeaderWrapper>
         </>
     )

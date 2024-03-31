@@ -76,13 +76,13 @@ export const TextInput = styled.input`
 export const ResponseContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: bottom;
     flex-grow: 1;
     min-height: 40px;
     overflow-y: auto;
     padding: 1rem;
     scrollbar-width: thin;
-    scrollbar-color: #e5274e rgba(255, 255, 255, 0.025);
+    scrollbar-color: ${PrimaryColor} rgba(255, 255, 255, 0.025);
     
     &::-webkit-scrollbar {
         width: 8px;

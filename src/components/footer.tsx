@@ -17,10 +17,6 @@ export function Footer() {
                         <FooterItem href='https://github.com/znx-x/nepture-playground' target='_blank'>Github Repository</FooterItem>
                         <FooterItem href='https://github.com/znx-x/nepture-playground/blob/main/LICENSE' target='_blank'>Usage License</FooterItem>
                     </FooterSection>
-                    <FooterSection>
-                        <FooterSectionTitle>GPT API</FooterSectionTitle>
-                        <FooterItem href='https://platform.openai.com/docs/overview' target='_blank'>Documentation</FooterItem>
-                    </FooterSection>
                 </FooterWrapper>
                 <CopyrightWrapper>
                     Copyright © 2024 Paulo Baronceli & Luis Baronceli. Distributed under the MIT lincense.

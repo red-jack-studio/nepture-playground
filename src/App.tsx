@@ -10,7 +10,6 @@ import Footer from './components/footer';
 
 // App Pages
 import Playground from "./pages/playground";
-import Playground2 from './pages/playground2';
 
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
             <Routes>
               {/* Define Default Routes */}
               <Route path="/" element={<Playground />} />
-              <Route path="/p2" element={<Playground2 />} />
             </Routes>
           </PageWrapper>
           <Footer />

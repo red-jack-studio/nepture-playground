@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { NeptureAPI, NeptureEngineEndpoint } from "../../constants/settings";
+import { NeptureAPI, NeptureEngineEndpoint, ContextFactor } from "../../constants/settings";
 import { CornerDownLeft } from "react-feather";
 
 /* Style Imports */
 import {
   ChatBoxContentWrapper,
+  ResponseContainer,
   FormattedAuthorHeader,
   FormattedResponse,
   FormattedResponseContainer,
@@ -14,7 +15,12 @@ import {
   TextInput,
   TrainingDataBox
 } from "../../styles/chatBox";
-import { PrimaryButton, ButtonWrapper, LineBreak, Spacer1Rem } from "../../styles";
+import {
+  PrimaryButton,
+  ButtonWrapper,
+  LineBreak,
+  Spacer1Rem
+} from "../../styles";
 
 interface ChatMessage {
   subject: "User" | "AI";
@@ -27,8 +33,17 @@ const Playground: React.FC = () => {
   const [trainingData, setTrainingData] = useState<string>("");
   const [isChatEnabled, setIsChatEnabled] = useState<boolean>(false);
   const [isAwaitingResponse, setIsAwaitingResponse] = useState<boolean>(false);
-
+  
+  const responseContainerRef = useRef<HTMLDivElement>(null);
   const chatInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Automatically scroll to the bottom of the response container when messages change
+    const scroll = responseContainerRef.current;
+    if (scroll) {
+      scroll.scrollTop = scroll.scrollHeight;
+    }
+  }, [messages]);
 
   // Ensure focus is reset to chat input after each new message
   useEffect(() => {
@@ -47,22 +62,30 @@ const Playground: React.FC = () => {
     setIsAwaitingResponse(true); // Start loading state
 
     const userMessage = userResponse.trim();
-    setMessages((prev) => [...prev, { subject: "User", content: userMessage }]);
+
+    // Calculate the start index for slicing the messages array based on ContextFactor
+    const startIndex = Math.max(messages.length - parseInt(ContextFactor), 0);
+    // Extract the last 'ContextFactor' number of messages for context
+    const contextMessages = messages.slice(startIndex).map(message => ({
+      role: message.subject.toLowerCase(),
+      content: message.content
+    }));
+
+    setMessages(prev => [...prev, { subject: "User", content: userMessage }]);
     setUserResponse(""); // Clear the input immediately
 
     try {
       const payload = {
         content: userMessage,
-        trainingData: trainingData.trim()
+        trainingData: trainingData.trim(),
+        // Include contextMessages in the request
+        context: contextMessages
       };
       const fullApiUrl = `${NeptureAPI}${NeptureEngineEndpoint}`;
       const response = await axios.post(fullApiUrl, payload);
 
       const aiTextResponse = response.data.choices[0].message.content;
-      setMessages((prev) => [
-        ...prev,
-        { subject: "AI", content: aiTextResponse }
-      ]);
+      setMessages(prev => [...prev, { subject: "AI", content: aiTextResponse }]);
     } catch (error) {
       console.error("Error sending message to API:", error);
     } finally {
@@ -105,12 +128,15 @@ const Playground: React.FC = () => {
         <ChatBoxContentWrapper>
           <TextBoxHeader>Nepture Chat Box</TextBoxHeader>
           <TextBox>
+          <ResponseContainer ref={responseContainerRef}>
             {messages.map((msg, index) => (
-              <FormattedResponseContainer key={index}>
-                <FormattedAuthorHeader>{msg.subject}:</FormattedAuthorHeader><LineBreak />
-                <FormattedResponse>{msg.content}</FormattedResponse>
-              </FormattedResponseContainer>
+                <FormattedResponseContainer key={index}>
+                  <FormattedAuthorHeader>{msg.subject}:</FormattedAuthorHeader>
+                  <LineBreak />
+                  <FormattedResponse>{msg.content}</FormattedResponse>
+                </FormattedResponseContainer>
             ))}
+            </ResponseContainer>
             <Spacer1Rem />
             <TextInput
               ref={chatInputRef}
@@ -129,7 +155,7 @@ const Playground: React.FC = () => {
                   isAwaitingResponse || userResponse.trim().length === 0
                 }
               >
-                {isAwaitingResponse ? "Awaiting response..." : "Send"}{" "}
+                {isAwaitingResponse ? "Processing..." : "Send"}{" "}
                 <CornerDownLeft size={16} style={{ marginBottom: "-4px" }} />
               </PrimaryButton>
             </ButtonWrapper>
