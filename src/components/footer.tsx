@@ -14,8 +14,8 @@ export function Footer() {
                 <FooterWrapper>
                     <FooterSection>
                         <FooterSectionTitle>Nepture Playground</FooterSectionTitle>
-                        <FooterItem href='https://github.com/znx-x/MindCrafter/tree/main' target='_blank'>Github Repository</FooterItem>
-                        <FooterItem href='https://github.com/znx-x/MindCrafter/blob/main/LICENSE' target='_blank'>Usage License</FooterItem>
+                        <FooterItem href='https://github.com/znx-x/nepture-playground' target='_blank'>Github Repository</FooterItem>
+                        <FooterItem href='https://github.com/znx-x/nepture-playground/blob/main/LICENSE' target='_blank'>Usage License</FooterItem>
                     </FooterSection>
                     <FooterSection>
                         <FooterSectionTitle>GPT API</FooterSectionTitle>

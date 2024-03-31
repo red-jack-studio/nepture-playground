@@ -5,8 +5,8 @@ import styled from 'styled-components'
 export const BorderRadius = `16px`;
 export const BorderColor = `rgba(255, 255, 255, 0.1)`;
 export const DefaultTextFontSize = `0.9rem`;
-export const PrimaryColor = `rgba(255, 255, 255, 0.15)`;
-export const PrimaryColorDimmed = `rgba(255, 255, 255, 0.1)`;
+export const PrimaryColor = `rgba(255, 255, 255, 0.05)`;
+export const PrimaryColorDimmed = `rgba(255, 255, 255, 0.01)`;
 export const PrimaryFontColor = `rgba(255, 255, 255, 1)`;
 export const SecondaryColor = `rgba(255, 255, 255, 0.2)`;
 export const SecondaryColorDimmed = `rgba(255, 255, 255, 0.15)`;
@@ -27,7 +27,7 @@ export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 1320px;
+    max-width: 1150px;
     margin: auto;
     padding: auto;
 `
@@ -37,11 +37,11 @@ export const PageWrapper = styled.div`
 export const ButtonWrapper = styled.a`
     text-decoration: none;
     cursor: pointer;
-    margin: 2rem 1rem;
+    margin: 0;
 `
 
 export const Button = styled.div`
-    max-width: 320px;
+    width: 100%;
     margin: auto;
     padding: 1rem 2rem;
     color: ${PrimaryFontColor};
@@ -52,3 +52,11 @@ export const Button = styled.div`
         background: ${PrimaryColorDimmed};
     }
 `
+
+export const PrimaryButton = styled(Button).attrs({ as: 'button' })`
+  cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+`;

@@ -7,6 +7,10 @@ import {
     PrimaryFontColor,
 } from './';
 
+export const ChatBoxContentWrapper = styled.div`
+    margin: 1rem 0;
+`
+
 export const TextBox = styled.div`
     width: calc(100% - 3rem);
     max-width: 1150px;
@@ -26,9 +30,29 @@ export const TextBox = styled.div`
     border-top-right-radius: 0;
 `;
 
+export const TrainingDataBox = styled.div`
+    width: calc(100% - 3rem);
+    max-width: 1150px;
+    min-height: 2rem;
+    height: auto;
+    font-size: ${DefaultTextFontSize};
+    color: ${PrimaryFontColor};
+    margin: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid ${BorderColor};
+    border-radius: ${BorderRadius};
+    background: rgba(255, 255, 255, 0.1);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+`;
+
 export const TextBoxHeader = styled.div`
-    width: calc(91% - 3rem); 
+    width: calc(100% - 3rem); 
     background: ${PrimaryColor};
+    border: 1px solid transparent;
     border-radius: 16px 16px 0 0;
     padding: 1rem;
     margin: auto; /* Center horizontally */
@@ -40,9 +64,12 @@ export const TextBoxHeader = styled.div`
 export const TextInput = styled.input`
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    color: ${PrimaryFontColor};
+    border: 1px solid ${PrimaryColor};
+    border-radius: 16px;
+    background: transparent;
+    margin-bottom: 1rem;
+    padding: 1rem;
 `;
 
 export const ResponseContainer = styled.div`

@@ -11,7 +11,7 @@ export function Header() {
                     Nepture Playground
                 </HeaderItem>
                 <HeaderItem href='/p2' target='_self'>
-                    Nepture Playground 2
+                    Nepture Playground II
                 </HeaderItem>
             </HeaderWrapper>
         </>
