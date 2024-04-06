@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 // App Pages
-import Playground from "./pages/Playground";
+import Playground from "./pages";
 
 function App() {
   return (

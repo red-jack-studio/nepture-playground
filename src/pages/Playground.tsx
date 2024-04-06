@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { NeptureAPI, NeptureEngineEndpoint, ContextFactor } from "../../constants/settings";
+import { NeptureAPI, NeptureEngineEndpoint, ContextFactor } from "../constants/settings";
 import { CornerDownLeft } from "react-feather";
-import textFormatter from "../../utils/useTextFormatter";
+import textFormatter from "../utils/useTextFormatter";
 
 /* Style Imports */
 import {
@@ -15,13 +15,13 @@ import {
   TextBoxHeader,
   TextInput,
   TrainingDataBox
-} from "../../styles/ChatBoxStyles";
+} from "../styles/ChatBoxStyles";
 import {
   PrimaryButton,
   ButtonWrapper,
   LineBreak,
   Spacer1Rem
-} from "../../styles";
+} from "../styles";
 
 interface ChatMessage {
   subject: "User" | "AI";
