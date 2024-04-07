@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { NeptureAPI, NeptureEngineEndpoint, ContextFactor } from "../constants/settings";
+import {
+  NeptureAPI,
+  NeptureEngineEndpoint,
+  ContextFactor
+} from "../constants/settings";
 import { CornerDownLeft } from "react-feather";
 import textFormatter from "../utils/useTextFormatter";
+import NeptureLogo from "../assets/images/nepture-64.png";
 
 /* Style Imports */
 import {
@@ -14,14 +19,25 @@ import {
   TextBox,
   TextBoxHeader,
   TextInput,
-  TrainingDataBox
+  TrainingDataBox,
+  HeaderLogo,
+  MessageBubble
 } from "../styles/ChatBoxStyles";
 import {
   PrimaryButton,
   ButtonWrapper,
   LineBreak,
-  Spacer1Rem
+  Spacer1Rem,
+  Spinner,
+  Spacer05Rem,
+  RedCircle,
+  InternalLink
 } from "../styles";
+import {
+  ProcessingJsxWrapper,
+  TextArea,
+  UploadFileTextWrapper
+} from "../styles/PlaygroundStyles";
 
 interface ChatMessage {
   subject: "User" | "AI";
@@ -31,12 +47,25 @@ interface ChatMessage {
 const Playground: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userResponse, setUserResponse] = useState<string>("");
-  const [trainingData, setTrainingData] = useState<string>("");
+  const [trainingData, setTrainingData] = useState<string>("{}");
   const [isChatEnabled, setIsChatEnabled] = useState<boolean>(false);
   const [isAwaitingResponse, setIsAwaitingResponse] = useState<boolean>(false);
-  
+  const [uploadButtonLabel, setUploadButtonLabel] =
+    useState<string>("Load File...");
+
+  const autoResizeTextareaRef = useRef<HTMLTextAreaElement>(null);
   const responseContainerRef = useRef<HTMLDivElement>(null);
-  const chatInputRef = useRef<HTMLInputElement>(null);
+  const chatInputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const textarea = autoResizeTextareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto"; // Reset height to recalculate
+      const maxHeight = 80; // Adjust based on the line height and maximum lines
+      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
+    }
+  }, [userResponse]);
 
   useEffect(() => {
     // Automatically scroll to the bottom of the response container when messages change
@@ -53,6 +82,35 @@ const Playground: React.FC = () => {
     }
   }, [messages, isChatEnabled]);
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+
+    if (file && file.type === "application/json") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const text = e.target?.result?.toString() || "{}";
+          const jsonData = JSON.parse(text); // Validate JSON
+          setTrainingData(JSON.stringify(jsonData)); // Store it as a string
+          setUploadButtonLabel(file.name);
+        } catch (error) {
+          console.log("Invalid JSON file.");
+          setTrainingData("{}"); // Ensure this is a string representation of an empty object
+          setUploadButtonLabel("Invalid JSON, try a different file.");
+        }
+      };
+      reader.readAsText(file);
+    } else {
+      console.log("No file selected or the file is not a JSON.");
+      setTrainingData("{}");
+      setUploadButtonLabel("Load File..."); // Reset label if no or invalid file selected
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   const startChat = () => {
     setIsChatEnabled(true);
     setTimeout(() => chatInputRef.current?.focus(), 0); // Ensure focus after state update
@@ -67,12 +125,12 @@ const Playground: React.FC = () => {
     // Calculate the start index for slicing the messages array based on ContextFactor
     const startIndex = Math.max(messages.length - parseInt(ContextFactor), 0);
     // Extract the last 'ContextFactor' number of messages for context
-    const contextMessages = messages.slice(startIndex).map(message => ({
+    const contextMessages = messages.slice(startIndex).map((message) => ({
       role: message.subject.toLowerCase(),
       content: message.content
     }));
 
-    setMessages(prev => [...prev, { subject: "User", content: userMessage }]);
+    setMessages((prev) => [...prev, { subject: "User", content: userMessage }]);
     setUserResponse(""); // Clear the input immediately
 
     try {
@@ -86,7 +144,10 @@ const Playground: React.FC = () => {
       const response = await axios.post(fullApiUrl, payload);
 
       const aiTextResponse = response.data.choices[0].message.content;
-      setMessages(prev => [...prev, { subject: "AI", content: aiTextResponse }]);
+      setMessages((prev) => [
+        ...prev,
+        { subject: "AI", content: aiTextResponse }
+      ]);
     } catch (error) {
       console.error("Error sending message to API:", error);
     } finally {
@@ -107,16 +168,24 @@ const Playground: React.FC = () => {
         <ChatBoxContentWrapper>
           <TextBoxHeader>Custom Training Information</TextBoxHeader>
           <TrainingDataBox>
+            <UploadFileTextWrapper>
+              You can select a custom Training Data File (.json) or just click
+              on <b>Start Chat</b> to use the standard AI dataset.
+            </UploadFileTextWrapper>
             <TextInput
-              placeholder="Please insert your training data here..."
-              value={trainingData}
-              onChange={(e) => setTrainingData(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && startChat()}
-              disabled={isChatEnabled}
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              accept=".json"
             />
+            <PrimaryButton onClick={triggerFileInput}>
+              {uploadButtonLabel}
+            </PrimaryButton>
+            <Spacer05Rem />
             <PrimaryButton onClick={startChat} disabled={isChatEnabled}>
-              Start Chat
-            </PrimaryButton>{" "}
+              <b>Start Chat</b>
+            </PrimaryButton>
           </TrainingDataBox>
         </ChatBoxContentWrapper>
       )}
@@ -127,26 +196,42 @@ const Playground: React.FC = () => {
        */}
       {isChatEnabled && (
         <ChatBoxContentWrapper>
-          <TextBoxHeader>Nepture Chat Box</TextBoxHeader>
+          <TextBoxHeader>
+            <HeaderLogo src={NeptureLogo} alt="Nepture Logo" />
+            <span>Welcome to Nepture AI</span>
+            <InternalLink href="/" target="_self">
+              <RedCircle />
+            </InternalLink>
+          </TextBoxHeader>
           <TextBox>
-          <ResponseContainer ref={responseContainerRef}>
-            {messages.map((msg, index) => (
-                <FormattedResponseContainer key={index}>
-                  <FormattedAuthorHeader>{msg.subject}:</FormattedAuthorHeader>
-                  <LineBreak />
-                  <FormattedResponse>{textFormatter(msg.content)}</FormattedResponse>
+            <ResponseContainer ref={responseContainerRef}>
+              {messages.map((msg, index) => (
+                <FormattedResponseContainer key={index} subject={msg.subject}>
+                  <MessageBubble subject={msg.subject}>
+                    <FormattedResponse>
+                      {textFormatter(msg.content)}
+                    </FormattedResponse>
+                  </MessageBubble>
                 </FormattedResponseContainer>
-            ))}
+              ))}
             </ResponseContainer>
             <Spacer1Rem />
-            <TextInput
+            <TextArea
               ref={chatInputRef}
               placeholder="Type your message..."
               value={userResponse}
-              onChange={(e) => setUserResponse(e.target.value)}
-              onKeyPress={(e) =>
-                e.key === "Enter" && !isAwaitingResponse && sendMessage()
-              }
+              onChange={(e) => {
+                setUserResponse(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                // Check for Enter without Shift
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault(); // Prevent the default action (newline) only for Enter alone
+                  if (!isAwaitingResponse && userResponse.trim().length > 0) {
+                    sendMessage();
+                  }
+                }
+              }}
               disabled={isAwaitingResponse}
             />
             <ButtonWrapper>
@@ -156,8 +241,19 @@ const Playground: React.FC = () => {
                   isAwaitingResponse || userResponse.trim().length === 0
                 }
               >
-                {isAwaitingResponse ? "Processing..." : "Send"}{" "}
-                <CornerDownLeft size={16} style={{ marginBottom: "-4px" }} />
+                {isAwaitingResponse ? (
+                  <ProcessingJsxWrapper>
+                    <Spinner />
+                  </ProcessingJsxWrapper>
+                ) : (
+                  <ProcessingJsxWrapper>
+                    Send{" "}
+                    <CornerDownLeft
+                      size={16}
+                      style={{ marginBottom: "-2px", marginLeft: "5px" }}
+                    />
+                  </ProcessingJsxWrapper>
+                )}{" "}
               </PrimaryButton>
             </ButtonWrapper>
           </TextBox>

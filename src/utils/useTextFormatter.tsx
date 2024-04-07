@@ -1,36 +1,37 @@
-/*
-  This util is used to format the text input and output in the main chat box.
-  Normally, AI engines respond with Markdown text, but you can change the
-  formatter below to suit any other response formats the specific engine you
-  are using may require.
-*/
-
-import React from 'react';
-import CodeBlock from '../components/CodeBlock';
+import React from "react";
+import CodeBlock from "../components/CodeBlock";
 
 const textFormatter = (text: string): React.ReactNode => {
-  // First, we check if the text is a code snippet
-  const codeBlockRegex = /```([\s\S]*?)```/g;
-  const codeMatch = text.match(codeBlockRegex);
-  // If we detect code, we embed it using out CodeBlock component
-  if (codeMatch) {
-    // Extract the code without the backticks
-    const code = codeMatch[0].replace(/```/g, '').trim();
-    return <CodeBlock code={code} />;
-  }
+  // Split text by code blocks while keeping the delimiters (code blocks)
+  // Updated regex to capture optional language identifiers
+  const splitText = text.split(/(```\w*\n[\s\S]*?```)/g);
 
-  // Process any non-code texts using Markdown regex
-  let processedText = text
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-    .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
-    .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
-    .replace(/\n/g, '<br />'); // Convert line breaks to <br />
+  return (
+    <>
+      {splitText.map((segment, index) => {
+        // Check if the segment is a code block, updated to consider optional language identifiers
+        const codeBlockMatch = segment.match(/```(?:\w*\n)?([\s\S]*?)```/);
+        if (codeBlockMatch) {
+          // Extract the code directly from the match group, which excludes the language identifier
+          const code = codeBlockMatch[1].trim();
+          return <CodeBlock key={index} code={code} />;
+        } else {
+          // Process any non-code texts using innerHTML for simplicity in this example
+          const processedText = segment
+            .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+            .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+            .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+            .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
+            .replace(/\*(.*?)\*/gim, "<em>$1</em>")
+            .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
+            .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
+            .replace(/\n/g, "<br />");
 
-  return <div dangerouslySetInnerHTML={{ __html: processedText }} />;
+          return <div key={index} dangerouslySetInnerHTML={{ __html: processedText }} />;
+        }
+      })}
+    </>
+  );
 };
 
 export default textFormatter;

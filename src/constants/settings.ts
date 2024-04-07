@@ -8,6 +8,7 @@
 
     GPT 3.5 Turbo: '/playground/gpt35t'
     GPT 4 Turbo: '/playground/gpt4t'
+    Arcadia: '/playground/arcadia'
 
     If you are using a local Nepture API server, make sure to
     declare the correct port.
@@ -19,6 +20,6 @@
     export const ContextFactor = '10';
 */
 
-export const NeptureAPI = `http://localhost:5000/api`;
+export const NeptureAPI = `https://YOUR_KEY_HERE.neptureai.com/api`;
 export const NeptureEngineEndpoint = `/playground/arcadia`;
 export const ContextFactor = '10';

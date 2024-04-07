@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import {
   AppWrapper,
   PageWrapper,
+  Spacer1Rem,
 } from './styles'
 
 // Header & Footer
-import Header from './components/Header';
+// import Header from './components/Header';
 import Footer from './components/Footer';
 
 // App Pages
@@ -17,7 +18,8 @@ function App() {
       <BrowserRouter>
         <AppWrapper>
           <PageWrapper>
-            <Header />
+            {/* <Header /> // Header can be hidden until there's more pages */}
+            <Spacer1Rem />
             <Routes>
               <Route path="/" element={<Playground />} />
             </Routes>

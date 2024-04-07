@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Clipboard } from 'react-feather'
+import { CodeBlockHeader, CodeBlockTitle, CodeBlockWrapper, CopyToClipboardButton, ProcessedCode, ProcessedCodeWrapper } from '../styles/CodeBlockStyles'
 
 interface CodeBlockProps {
   code: string
@@ -37,26 +38,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: '#111',
-        padding: '0px',
-        margin: '10px',
-        borderRadius: '16px',
-      }}
-    >
-      <div
-        style={{
-          background: 'rgba(255, 255, 255, 0.025)',
-          padding: '15px',
-          borderRadius: '16px 16px 0px 0px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <span>Nepture Code Block</span>
-        <button
+    <CodeBlockWrapper>
+      <CodeBlockHeader>
+        <CodeBlockTitle>Nepture AI Code Block</CodeBlockTitle>
+        <CopyToClipboardButton
           onClick={copyToClipboard}
           style={{
             backgroundColor: 'transparent',
@@ -67,17 +52,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
           }}
         >
           <Clipboard size={10} /> <span>{copyButtonText}</span>
-        </button>
-      </div>
-      <div
-        style={{
-          backgroundColor: '#111',
-          borderRadius: '0px 0px 16px 16px',
-          padding: '15px',
-          whiteSpace: 'pre-wrap',
-        }}
-      >
-        <code
+        </CopyToClipboardButton>
+      </CodeBlockHeader>
+      <ProcessedCodeWrapper>
+        <ProcessedCode
           style={{
             color: '#FFF',
             padding: '10px',
@@ -87,9 +65,9 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
           }}
         >
           {processedCode}
-        </code>
-      </div>
-    </div>
+        </ProcessedCode>
+      </ProcessedCodeWrapper>
+      </CodeBlockWrapper>
   )
 }
 

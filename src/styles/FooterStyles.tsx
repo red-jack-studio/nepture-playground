@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
     BorderColor,
     DefaultTextFontSize,
+    SecondaryBackgroundColor,
 } from '.'
 
 export const ComponentWrapper = styled.div`
@@ -10,6 +11,7 @@ export const ComponentWrapper = styled.div`
     border-top: 1px solid ${BorderColor};
     margin-top: 2rem;
     padding-bottom: 1rem;
+    background: ${SecondaryBackgroundColor};
 `
 
 export const FooterWrapper = styled.div`
