@@ -1,74 +1,62 @@
-import React, { useState } from 'react'
-import { Clipboard } from 'react-feather'
-import { CodeBlockHeader, CodeBlockTitle, CodeBlockWrapper, CopyToClipboardButton, ProcessedCode, ProcessedCodeWrapper } from '../styles/CodeBlockStyles'
+import React, { useState } from "react";
+import { Clipboard } from "react-feather";
+import {
+  CodeBlockHeader,
+  CodeBlockTitle,
+  CodeBlockWrapper,
+  CopyToClipboardButton,
+  ProcessedCode,
+  ProcessedCodeWrapper
+} from "../styles/CodeBlockStyles";
 
 interface CodeBlockProps {
-  code: string
+  code: string;
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
-  const [copyButtonText, setCopyButtonText] = useState('Copy Code')
+  const [copyButtonText, setCopyButtonText] = useState("Copy Code");
 
   /* code processor to run checks and actions before the final code is issued to the user */
   const processCode = (inputCode: string): string => {
     /* this check supresses the first character if it is a blank space */
-    if (inputCode.startsWith(' ')) {
-      return inputCode.substring(1)
+    if (inputCode.startsWith(" ")) {
+      return inputCode.substring(1);
     }
-    return inputCode
-  }
+    return inputCode;
+  };
 
-  const processedCode = processCode(code)
+  const processedCode = processCode(code);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(processedCode).then(
       () => {
-        setCopyButtonText('On Clipboard!')
+        setCopyButtonText("On Clipboard!");
         setTimeout(() => {
-          setCopyButtonText('Copy Code')
-        }, 2000)
+          setCopyButtonText("Copy Code");
+        }, 2000);
       },
       () => {
-        setCopyButtonText('Failed to copy. Try again.')
+        setCopyButtonText("Failed to copy. Try again.");
         setTimeout(() => {
-          setCopyButtonText('Copy Code')
-        }, 2000)
+          setCopyButtonText("Copy Code");
+        }, 2000);
       }
-    )
-  }
+    );
+  };
 
   return (
     <CodeBlockWrapper>
       <CodeBlockHeader>
         <CodeBlockTitle>Nepture AI Code Block</CodeBlockTitle>
-        <CopyToClipboardButton
-          onClick={copyToClipboard}
-          style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: '#FFF',
-            cursor: 'pointer',
-            fontSize: '8pt',
-          }}
-        >
+        <CopyToClipboardButton onClick={copyToClipboard}>
           <Clipboard size={10} /> <span>{copyButtonText}</span>
         </CopyToClipboardButton>
       </CodeBlockHeader>
       <ProcessedCodeWrapper>
-        <ProcessedCode
-          style={{
-            color: '#FFF',
-            padding: '10px',
-            margin: 0,
-            display: 'block',
-            textAlign: 'left',
-          }}
-        >
-          {processedCode}
-        </ProcessedCode>
+        <ProcessedCode>{processedCode}</ProcessedCode>
       </ProcessedCodeWrapper>
-      </CodeBlockWrapper>
-  )
-}
+    </CodeBlockWrapper>
+  );
+};
 
-export default CodeBlock
+export default CodeBlock;

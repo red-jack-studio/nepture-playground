@@ -9,7 +9,7 @@ import {
 } from ".";
 
 export const CodeBlockWrapper = styled.div`
-    margin: 1rem 0;
+    margin: 1rem 0 1rem 0;
     padding: 0;
     border-radius: ${BorderRadius};
     background: ${DarkGreyColor};

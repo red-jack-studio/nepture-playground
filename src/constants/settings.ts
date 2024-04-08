@@ -20,6 +20,6 @@
     export const ContextFactor = '10';
 */
 
-export const NeptureAPI = `https://YOUR_KEY_HERE.neptureai.com/api`;
+export const NeptureAPI = `http://localhost:5000/api`;
 export const NeptureEngineEndpoint = `/playground/arcadia`;
 export const ContextFactor = '10';
