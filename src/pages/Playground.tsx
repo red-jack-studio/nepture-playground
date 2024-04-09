@@ -8,12 +8,12 @@ import {
 import { CornerDownLeft } from "react-feather";
 import textFormatter from "../utils/useTextFormatter";
 import NeptureLogo from "../assets/images/nepture-64.png";
+import WelcomeImg from "../assets/images/nepture-1000.png";
 
 /* Style Imports */
 import {
   ChatBoxContentWrapper,
   ResponseContainer,
-  FormattedAuthorHeader,
   FormattedResponse,
   FormattedResponseContainer,
   TextBox,
@@ -21,7 +21,10 @@ import {
   TextInput,
   TrainingDataBox,
   HeaderLogo,
-  MessageBubble
+  MessageBubble,
+  WelcomeImage,
+  StarterWrapper,
+  WelcomeTextWrapper
 } from "../styles/ChatBoxStyles";
 import {
   PrimaryButton,
@@ -31,7 +34,7 @@ import {
   Spinner,
   Spacer05Rem,
   RedCircle,
-  InternalLink
+  Link
 } from "../styles";
 import {
   ProcessingJsxWrapper,
@@ -43,6 +46,8 @@ interface ChatMessage {
   subject: "User" | "AI";
   content: string;
 }
+
+const isMobileOrTablet = () => window.innerWidth <= 1024;
 
 const Playground: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -75,9 +80,9 @@ const Playground: React.FC = () => {
     }
   }, [messages]);
 
-  // Ensure focus is reset to chat input after each new message
   useEffect(() => {
-    if (isChatEnabled) {
+    // Ensure focus is reset to chat input after each new message ONLY for desktops
+    if (isChatEnabled && !isMobileOrTablet()) {
       chatInputRef.current?.focus();
     }
   }, [messages, isChatEnabled]);
@@ -166,26 +171,35 @@ const Playground: React.FC = () => {
         */}
       {!isChatEnabled && (
         <ChatBoxContentWrapper>
-          <TextBoxHeader>Custom Training Information</TextBoxHeader>
+          <TextBoxHeader>Nepture AI</TextBoxHeader>
           <TrainingDataBox>
-            <UploadFileTextWrapper>
-              You can select a custom Training Data File (.json) or just click
-              on <b>Start Chat</b> to use the standard AI dataset.
-            </UploadFileTextWrapper>
-            <TextInput
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              accept=".json"
-            />
-            <PrimaryButton onClick={triggerFileInput}>
-              {uploadButtonLabel}
-            </PrimaryButton>
-            <Spacer05Rem />
-            <PrimaryButton onClick={startChat} disabled={isChatEnabled}>
-              <b>Start Chat</b>
-            </PrimaryButton>
+            <WelcomeTextWrapper>
+              <WelcomeImage src={WelcomeImg} />
+              <h1>Welcome to Nepture AI Playground</h1>
+              <p style={{ marginTop: '-10px' }}>
+                This application is an early implementation of Arcadia, Nepture AI's LMM engine.
+              </p>
+            </WelcomeTextWrapper>
+            <StarterWrapper>
+              <UploadFileTextWrapper>
+                You can select a custom Training Data File (.json) or just click
+                on <b>Start Chat</b> to use the standard AI dataset.
+              </UploadFileTextWrapper>
+              <TextInput
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+                accept=".json"
+              />
+              <PrimaryButton onClick={triggerFileInput}>
+                {uploadButtonLabel}
+              </PrimaryButton>
+              <Spacer05Rem />
+              <PrimaryButton onClick={startChat} disabled={isChatEnabled}>
+                <b>Start Chat</b>
+              </PrimaryButton>
+            </StarterWrapper>
           </TrainingDataBox>
         </ChatBoxContentWrapper>
       )}
@@ -197,11 +211,13 @@ const Playground: React.FC = () => {
       {isChatEnabled && (
         <ChatBoxContentWrapper>
           <TextBoxHeader>
-            <HeaderLogo src={NeptureLogo} alt="Nepture Logo" />
-            <span>Welcome to Nepture AI</span>
-            <InternalLink href="/" target="_self">
+            <Link href="https://neptureai.com" target="_blank">
+              <HeaderLogo src={NeptureLogo} alt="Nepture Logo" />
+            </Link>
+            <span>Nepture AI</span>
+            <Link href="/" target="_self">
               <RedCircle />
-            </InternalLink>
+            </Link>
           </TextBoxHeader>
           <TextBox>
             <ResponseContainer ref={responseContainerRef}>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {
   BorderColor,
   BorderRadius,
@@ -17,8 +17,26 @@ type StyledProps = {
   subject: "User" | "AI";
 };
 
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 export const ChatBoxContentWrapper = styled.div`
-  margin: 1rem 0;
+  margin: 0;
+  animation: ${fadeUp} 0.1s ease-out 0s;
+`;
+
+export const WelcomeImage = styled.img`
+  width: 128px;
+  height: 128px;
+  margin: 10px;
 `;
 
 export const HeaderLogo = styled.img`
@@ -44,6 +62,10 @@ export const TextBox = styled.div`
   background: ${SecondaryBackgroundColor};
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+
+  @media (max-width: 1024px) {
+    height: 84vh;
+  }
 `;
 
 export const TrainingDataBox = styled.div`
@@ -64,6 +86,20 @@ export const TrainingDataBox = styled.div`
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 `;
+
+export const WelcomeTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+`
+
+export const StarterWrapper = styled.div`
+  padding: 1.2rem;
+  background: ${SecondaryBackgroundColor};
+  border-radius: ${BorderRadius};
+`
 
 export const TextBoxHeader = styled.div`
   display: flex;
@@ -106,7 +142,7 @@ export const ResponseContainer = styled.div`
   flex-grow: 1;
   min-height: 40px;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 0;
   scrollbar-width: thin;
   scrollbar-color: ${BorderColor} ${PrimaryBackgroundColor};
 
@@ -133,19 +169,12 @@ export const FormattedResponseContainer = styled.div<StyledProps>`
   display: flex;
   justify-content: ${({ subject }) =>
     subject === "User" ? "flex-end" : "flex-start"};
-  padding: 5px 10px;
+  padding: 7px 0;
 `;
 
 export const FormattedResponse = styled.span`
   font-size: 1rem;
   font-weight: 400;
-`;
-
-export const FormattedAuthorHeader = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: ${SecondaryColor};
 `;
 
 export const MessageBubble = styled.div<StyledProps>`
@@ -160,4 +189,5 @@ export const MessageBubble = styled.div<StyledProps>`
     subject === "User" ? "margin-right: 0;" : "margin-left: 0;"}
   word-wrap: break-word;
   text-align: left;
+  animation: ${fadeUp} 0.3s ease-out 0s;
 `;

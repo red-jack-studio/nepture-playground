@@ -16,10 +16,10 @@
     Default Configuration:
 
     export const NeptureAPI = `http://localhost:5000/api`;
-    export const NeptureEngineEndpoint = `/playground/arcadia`;
+    export const NeptureEngineEndpoint = `/prompt/arcadia`;
     export const ContextFactor = '10';
 */
 
 export const NeptureAPI = `http://localhost:5000/api`;
-export const NeptureEngineEndpoint = `/playground/arcadia`;
+export const NeptureEngineEndpoint = `/prompt/arcadia`;
 export const ContextFactor = '10';

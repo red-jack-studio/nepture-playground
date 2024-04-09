@@ -37,8 +37,11 @@ export const BubbleBackgroundAi = `#292929`;
 /* Exports all major wrappers. */
 
 export const AppWrapper = styled.div`
-  width: 100%;
+  min-width: 100vw;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   margin: 0 auto;
   padding: 0;
@@ -55,7 +58,7 @@ export const AppWrapper = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.90);
+    background: rgba(0, 0, 0, 0.9);
     z-index: -1;
   }
 `;
@@ -67,17 +70,18 @@ export const PageWrapper = styled.div`
   max-width: 1150px;
   margin: auto;
   padding: auto;
+  width: 100vw;
 `;
 
 /* Text and Links. */
 
-export const InternalLink = styled.a`
+export const Link = styled.a`
   cursor: pointer;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 /* General styled components to be exported and used in the application. */
 
@@ -132,7 +136,7 @@ export const Spinner = styled.div`
 
 export const RedCircle = styled.div`
   width: 16px;
-  height: 16px; 
+  height: 16px;
   border-radius: 50%;
   background-color: ${RedColor};
   position: absolute;
