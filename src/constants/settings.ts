@@ -6,9 +6,9 @@
 
     Available Engine Endpoints:
 
-    GPT 3.5 Turbo: '/playground/gpt35t'
-    GPT 4 Turbo: '/playground/gpt4t'
-    Arcadia: '/playground/arcadia'
+    GPT 3.5 Turbo: '/prompt/gpt35t'
+    GPT 4 Turbo: '/prompt/gpt4t'
+    Arcadia: '/prompt/arcadia'
 
     If you are using a local Nepture API server, make sure to
     declare the correct port.

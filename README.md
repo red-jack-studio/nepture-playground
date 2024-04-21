@@ -23,10 +23,7 @@ To install the Nepture Playground, follow these steps:
     ```shell
     cd nepture-playground && npm install
     ```
-3. Rename .env.EXAMPLE to .env and configure it with your API keys:
-    ```shell
-    mv .env.EXAMPLE .env
-    ```
+3. Set up your `/src/constants/settings.ts` file with your Nepture API server details and endpoints.
 
 ## Running Locally
 
