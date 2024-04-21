@@ -17,7 +17,7 @@ To install the Nepture Playground, follow these steps:
 
 1. Clone the repository:
     ```shell
-    git clone https://github.com/znx-x/nepture-playground
+    git clone https://github.com/red-jack-studio/nepture-playground
     ```
 2. Navigate to the repository and install dependencies:
     ```shell
@@ -41,6 +41,6 @@ npm run build
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit [pull requests](https://github.com/znx-x/nepture-playground/pulls) and open [issues](https://github.com/znx-x/nepture-playground/issues) for discussion.
+Contributions are welcome! Please feel free to submit [pull requests](https://github.com/red-jack-studio/nepture-playground/pulls) and open [issues](https://github.com/red-jack-studio/nepture-playground/issues) for discussion.
 
 Pull requests will be evaluated on an individual basis, focusing on the relevance and value of the proposed functionality additions. Note that UI/UX changes not tied to new features may not be accepted.
